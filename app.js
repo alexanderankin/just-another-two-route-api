@@ -5,6 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mysql = require('mysql');
+var dbconfig = require('./dbconfig');
+
+var connection = mysql.createConnection(dbconfig);
+connection.connect();
+
+var apiRoutes = require('./routes/api');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -24,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
